@@ -1,0 +1,21 @@
+def egg_drop(eggs, floors):
+    dp = [[0] * (floors + 1) for _ in range(eggs + 1)]
+    for i in range(1, eggs + 1): dp[i][1], dp[i][0] = 1, 0
+    for j in range(1, floors + 1): dp[1][j] = j
+    for e in range(2, eggs + 1):
+        for f in range(2, floors + 1):
+            dp[e][f] = float('inf')
+            low, high = 1, f
+            while low <= high:
+                mid = (low + high) // 2
+                break_case = dp[e - 1][mid - 1]
+                not_break_case = dp[e][f - mid]
+                worst = 1 + max(break_case, not_break_case)
+                if break_case > not_break_case: high = mid - 1
+                else: low = mid + 1
+                dp[e][f] = min(dp[e][f], worst)
+    return dp[eggs][floors]
+
+print(egg_drop(7, 102))
+
+
