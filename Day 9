@@ -1,0 +1,33 @@
+
+
+def f(x):
+    def g():
+        x = 5
+        print('g: x =', x)
+
+        def h():
+            z = x
+            print('h: z =', z)
+
+        x = x + 1
+        print('g: x after increment =', x)
+        h()
+
+    g()
+    print('f: x =', x)
+    return g
+
+x = 10
+z = f(x)
+print('global: x =', x)
+z()
+
+
+
+Results after running code
+Call Stack When h() Runs:
+
+→ h(): z = 6  
+→ g(): x = 6  
+→ f(): x = 10
+
