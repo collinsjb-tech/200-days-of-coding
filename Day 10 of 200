@@ -1,0 +1,34 @@
+modularizing a code and finding the root
+
+def find_root_bounds(x, power): 
+    # Set initial low and high bounds for bisection
+    low = min(-1, x)
+    high = max(1, x)
+    return low, high
+
+def bisection_solve(x, power, epsilon, low, high):
+    # Apply bisection method to find the root
+    guess = (low + high) / 2.0
+    while abs(guess**power - x) >= epsilon:
+        if guess**power < x:
+            low = guess
+        else:
+            high = guess
+        guess = (low + high) / 2.0
+    return guess
+
+def find_root(x, power, epsilon):
+    # Main function to handle logic and edge cases
+    if x < 0 and power % 2 == 0:
+        return None  # Even root of negative number is not real
+    low, high = find_root_bounds(x, power)
+    return bisection_solve(x, power, epsilon, low, high)
+
+# Example
+if __name__ == "__main__":
+    x = 27
+    power = 3
+    epsilon = 0.001
+    result = find_root(x, power, epsilon)
+    print(f"The approximate {power}-th root of {x} is {result}")
+
