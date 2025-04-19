@@ -1,0 +1,17 @@
+# main.py
+
+# 1. List Example (Mutable)
+fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")  # Adding an item
+fruits[1] = "blueberry"  # Changing an item
+print("List example:", fruits)
+
+# 2. Tuple Example (Immutable)
+coordinates = (10, 20)
+# coordinates[0] = 30  # Uncommenting this will raise a TypeError
+print("Tuple example:", coordinates)
+
+# 3. Range Example (Immutable)
+print("Range example:")
+for i in range(1, 5):
+    print(i)
