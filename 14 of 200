@@ -1,0 +1,34 @@
+def compare_methods(f, df, a, b, x0, tol=1e-6, max_iter=100):
+    # Bisection Method
+    a_bis, b_bis = a, b
+    steps_bis = 0
+    while steps_bis < max_iter:
+        c = (a_bis + b_bis) / 2.0
+        if abs(f(c)) < tol or abs(b_bis - a_bis) / 2 < tol:
+            break
+        if f(a_bis) * f(c) < 0:
+            b_bis = c
+        else:
+            a_bis = c
+        steps_bis += 1
+    root_bis = c
+
+    # Newton-Raphson Method
+    x = x0
+    steps_nr = 0
+    while steps_nr < max_iter:
+        fx = f(x)
+        dfx = df(x)
+        if abs(fx) < tol:
+            break
+        if dfx == 0:
+            raise ZeroDivisionError("Derivative is zero.")
+        x -= fx / dfx
+        steps_nr += 1
+    root_nr = x
+
+    # Return steps and roots for both methods
+    return {
+        "Bisection": {"steps": steps_bis, "root": root_bis},
+        "Newton-Raphson": {"steps": steps_nr, "root": root_nr}
+    }
