@@ -1,0 +1,109 @@
+import random
+import time
+
+sensor_data = [random.randint(0, 10000) for _ in range(1000)]
+
+def linear_search(data, target):
+    for i, value in enumerate(data):
+        if value == target:
+            return i
+    return -1
+
+def binary_search(data, target):
+    low, high = 0, len(data) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if data[mid] == target:
+            return mid
+        elif data[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+def bubble_sort(data):
+    data = data[:]
+    for i in range(len(data)):
+        for j in range(0, len(data) - i - 1):
+            if data[j] > data[j + 1]:
+                data[j], data[j + 1] = data[j + 1], data[j]
+    return data
+
+def selection_sort(data):
+    data = data[:]
+    for i in range(len(data)):
+        min_idx = i
+        for j in range(i+1, len(data)):
+            if data[j] < data[min_idx]:
+                min_idx = j
+        data[i], data[min_idx] = data[min_idx], data[i]
+    return data
+
+def insertion_sort(data):
+    data = data[:]
+    for i in range(1, len(data)):
+        key = data[i]
+        j = i - 1
+        while j >= 0 and data[j] > key:
+            data[j + 1] = data[j]
+            j -= 1
+        data[j + 1] = key
+    return data
+
+def merge_sort(data):
+    if len(data) <= 1:
+        return data
+    mid = len(data) // 2
+    left = merge_sort(data[:mid])
+    right = merge_sort(data[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+def quick_sort(data):
+    if len(data) <= 1:
+        return data
+    pivot = data[0]
+    less = [x for x in data[1:] if x <= pivot]
+    greater = [x for x in data[1:] if x > pivot]
+    return quick_sort(less) + [pivot] + quick_sort(greater)
+
+def heap_sort(data):
+    import heapq
+    data = data[:]
+    heapq.heapify(data)
+    return [heapq.heappop(data) for _ in range(len(data))]
+
+def time_function(func, *args):
+    start = time.time()
+    result = func(*args)
+    end = time.time()
+    return result, end - start
+
+print("--- Sorting Algorithms Timing ---")
+for sort_func in [bubble_sort, selection_sort, insertion_sort, merge_sort, quick_sort, heap_sort]:
+    _, duration = time_function(sort_func, sensor_data)
+    print(f"{sort_func.__name__}: {duration:.5f} seconds")
+
+print("\n--- Searching Algorithms Timing ---")
+sorted_data = sorted(sensor_data)
+target = sensor_data[500]
+
+_, lin_time = time_function(linear_search, sensor_data, target)
+_, bin_time = time_function(binary_search, sorted_data, target)
+
+print(f"linear_search: {lin_time:.5f} seconds")
+print(f"binary_search: {bin_time:.5f} seconds")
+
