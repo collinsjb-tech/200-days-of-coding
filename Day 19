@@ -1,0 +1,24 @@
+# Step 1: Create and write to a new file
+fh = open('readings.txt', 'w')
+fh.write("Voltage: 230V\n")
+fh.write("Current: 10A\n")
+fh.write("Power: 2300W\n")
+fh.close()
+
+# Step 2: Append more readings
+fh = open('readings.txt', 'a')
+fh.writelines(["Frequency: 50Hz\n", "Energy: 5kWh\n"])
+fh.close()
+
+# Step 3: Read the full content
+fh = open('readings.txt', 'r')
+print("Full content:\n", fh.read())
+fh.close()
+
+# Step 4: Read line by line
+fh = open('readings.txt', 'r')
+print("First Line:", fh.readline().strip())
+print("Remaining Lines:")
+for line in fh.readlines():
+    print(line.strip())
+fh.close()
