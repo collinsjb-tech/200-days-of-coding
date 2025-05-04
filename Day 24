@@ -1,0 +1,33 @@
+from datetime import date
+
+class Person:
+    def __init__(self, name):
+        self._name = name
+        try:
+            last_blank = name.rindex(' ')
+            self._last_name = name[last_blank + 1:]
+        except ValueError:
+            self._last_name = name
+        self._birthday = None
+
+    def get_name(self):
+        return self._name
+
+    def get_last_name(self):
+        return self._last_name
+
+    def set_birthday(self, birthdate):
+        self._birthday = birthdate
+
+    def get_age(self):
+        if self._birthday is None:
+            raise ValueError("Birthday not set.")
+        return (date.today() - self._birthday).days
+
+    def __lt__(self, other):
+        if self._last_name == other._last_name:
+            return self._name < other._name
+        return self._last_name < other._last_name
+
+    def __str__(self):
+        return self._name
